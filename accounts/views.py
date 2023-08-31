@@ -36,7 +36,7 @@ def login(request):
 def profile(request, username):
     User = get_user_model()
 
-    user_info = User.objects.get(username=username)
+    user_info = User.ubjects.get(username=username)
     
     context = {
         'user_info': user_info,
