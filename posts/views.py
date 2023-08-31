@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Post 
 from .forms import PostForm, CommentForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -13,7 +14,7 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-
+@login_required
 def create(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
@@ -47,5 +48,21 @@ def comment_create(request, post_id):
 
         return redirect('posts:index')
 
+@login_required
+def like(request, post_id):
 
+    # 좋아요 버튼을 누른 유저
+    user = request.user
+    post = Post.objects.get(id=post_id)
+    
+    # 좋아요버튼을 이미 누른 경우
+    # if user in post.like_users.all(): # post를 좋아요 누른 모든 유저목록 중에 지금 로그인 한 user가 있다면
+    if post in user.like_posts.all():
+        post.like_users.remove(user)
+        # user.like_posts.remove(post)
+    # 아직 좋아요버튼을 안누른 경우
+    else:
+        post.like_users.add(user)
+        # user.like_posts.add(post)
+    return redirect('posts:index')
 
