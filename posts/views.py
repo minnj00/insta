@@ -31,7 +31,7 @@ def create(request):
     }
 
     return render(request, 'form.html', context)
-
+@login_required
 def comment_create(request, post_id):
     comment_form = CommentForm(request.POST)
 

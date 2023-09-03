@@ -2,7 +2,7 @@
 {% block body %}
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{form}}
+        {% bootstrap form form%}
         <input type="submit">
         
     </form>
